@@ -1,5 +1,4 @@
 ##  Setup
-setwd("~/DataScienceCert/03-Getting and Cleaning Data/Project")
 if (!file.exists("data")) {
   dir.create("data")
 }
