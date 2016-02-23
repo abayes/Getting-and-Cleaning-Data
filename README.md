@@ -1,6 +1,6 @@
 ## Getting and Cleaning Data Course Project
 The run_analysis.R script will download the messy data and turn it into a tidy data set. The tidy dataset will be saved as "final.txt"
-* First the environment will be set up. The working directory will be set, a folder will be created for the downloaded data, and the necessary packages will be loaded
+* First the environment will be set up. A folder will be created for the downloaded data, and the necessary packages will be loaded
 * The data will be downloaded [if necessary] in the form of a zip file
 * The files will be unzipped [if necessary]
 * The data will be loaded and tidied
