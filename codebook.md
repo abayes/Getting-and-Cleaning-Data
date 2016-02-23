@@ -31,55 +31,66 @@ The run_analysis.R script performs the following:
 3. Unzip files
     * Upzips the file if it hasn't already been unzipped in the data folder
 4. Load variable names and activity labels
-    * features.txt is loaded into a table named varnames. 
+    * features.txt is loaded into a data frame named varnames. 
         * varnames has 561 rows and 2 columns. 
         * The first column is position and goes from 1 to 561
         * The second column is a descpritive name for the measurements. These are not unique however.
         * A concatenaction of these two columns will be used to give descriptive names to the measurements in the test and train data sets. 
-    * activity_labels.txt is loaded into a table named activity_labels
+    * activity_labels.txt is loaded into a data frame named activity_labels
         * activity_labels has 6 rows and 2 columns
         * This is a mapping between the activity codes used in the y_train.txt and y_test.txt files and a descriptive activity name
 5. Load and tidy test data
     * This is the data for 9 of the subjects in the experiment
-    * subject_test.txt is loaded into a table named test_subjects
-        * This table has 2947 observations of subject
-    * 
+    * subject_test.txt is loaded into a data frame named test_subjects
+        * This data frame has 2947 observations of subject. There are 9 subjects in total
+        * This will become a column in the full dataset
+    * y_test.txt is loaded into a data frame named test_activities
+        * This data frame has 2947 observations of activity codes. There are 6 activity codes in total
+        * This will become a column in the full dataset
+        * These codes are joined with activity_labels to give a descriptive name to each activity
+    * X_test.txt is loaded into a data frame named test_data
+        * This data frame has 2947 observations of 561 measurements
+        * This data will make up 561 columns in the full dataset
+        * The columns in this data frame are named using the data in the varnames data frame
+    * These 3 tables are combined column-wise creating a new data frame test_data_set
+        * Each subject is matched to an activity and to 561 measurements
+        * test_data_set has 2947 observations with 564 columns (561 meaurements + 1 subject + 1 code + 1 activity label)
 6. Load and tidy train data
+    * This is the data for 21 of the subjects in the experiment
+    * subject_train.txt is loaded into a data frame named train_subjects
+        * This data frame has 7352 observations of subject. There are 21 subjects in total
+        * This will become a column in the full dataset
+    * y_train.txt is loaded into a data frame named train_activities
+        * This data frame has 7352 observations of activity codes. There are 6 activity codes in total
+        * This will become a column in the full dataset
+        * These codes are joined with activity_labels to give a descriptive name to each activity
+    * X_train.txt is loaded into a data frame named train_data
+        * This data frame has 7352 observations of 561 measurements
+        * This data will make up 561 columns in the full dataset
+        * The columns in this data frame are named using the data in the varnames data frame
+    * These 3 tables are combined column-wise creating a new data frame train_data_set
+        * Each subject is matched to an activity and to 561 measurements
+        * train_data_set has 7352 observations with 564 columns (561 meaurements + 1 subject + 1 code + 1 activity label)
 7. Merge test and train data
+    * test_data_set and train_data_set combined row-wise into the combo table
+    * combo has 10299 observations (7352 + 2947)
+    * the code column is removed. It is not necessary because the descriptive activity label is included in this data set
 8. Extracts only the measurements on the mean and standard deviation
+    * The descriptive columns (subject and activity) are retained
+    * the 561 variables originally from the features.txt file are narrowed down
+    * Only measurements on the mean and standard deviation are kept
+    * NOTE: The requirements could have different interpretations here, specifically for "mean"
+        * This script takes a strict intepretation of measurements that should be kept. See example below to illustrate:
+          * 1 tBodyAcc-mean()-X - kept
+          * 375 fBodyAccJerk-meanFreq()-Z - discarded
+          * 556 angle(tBodyAccJerkMean),gravityMean) - discarded
+    * This results in a data set with 68 columns and 10299 observations
 9. Create a tidy dada set with the average of each variable for each activity and each subject
+    * Group the combo data set by subject and activity and perform an average of each measurment
+    * This results in a tidy data set with 180 observations and 68 columns 
 10. Save the final tidy dataset
+    * Saved to final.txt in the working directory
+
+The final.txt file
 
 
-
-
-## 
-test_subjects <- read.table("./data/UCI HAR Dataset/test/subject_test.txt", col.names = "subject")
-test_activities <- read.table("./data/UCI HAR Dataset/test/Y_test.txt", 
-                         colClasses = "factor", col.names = "code") %>%
-  left_join(activity_labels)
-test_data <- read.table("./data/UCI HAR Dataset/test/X_test.txt")
-names(test_data) <- paste(varnames$V2,varnames$V1)
-test_data_set <- cbind(test_subjects, test_activities, test_data)
-
-## 
-train_subjects <- read.table("./data/UCI HAR Dataset/train/subject_train.txt", col.names = "subject")
-train_activities <- read.table("./data/UCI HAR Dataset/train/Y_train.txt", 
-                              colClasses = "factor", col.names = "code") %>%
-  left_join(activity_labels)
-train_data <- read.table("./data/UCI HAR Dataset/train/X_train.txt")
-names(train_data) <- paste(varnames$V2,varnames$V1)
-train_data_set <- cbind(train_subjects, train_activities, train_data)
-
-## 
-combo <- bind_rows(test_data_set, train_data_set) %>% select(-code)
-
-## 
-combo_mean_std <- select(combo, subject, activity, matches("mean[^A-Z]|std", ignore.case = F))
-
-## 
-final <- group_by(combo_mean_std, activity, subject) %>%
-  summarise_each(funs(mean))
-
-## 
-write.table(final, file = "./final.txt")
