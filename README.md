@@ -6,7 +6,6 @@ The run_analysis.R script will download the messy data and turn it into a tidy d
 * The data will be loaded and tidied
 * The relevant data will be extracted
 * The dataset will be saved to a file in the working directory: final.txt
-* 
 
 Information about final.txt:
 * final.txt has 180 observations 
