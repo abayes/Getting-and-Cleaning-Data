@@ -18,10 +18,9 @@ if (!file.exists("./data/UCI HAR Dataset")) {
 
 ## Load variable names and activity labels
 ## varnames will be used to label the dataset with descriptive variable names
-## activity_labes will be used to name the activities in the data set
+## activity_labels will be used to name the activities in the data set
 varnames <- read.table("./data/UCI HAR Dataset/features.txt")
-activity_labels <- read.table("./data/UCI HAR Dataset/activity_labels.txt",
-                             colClasses = "factor", col.names = c("code", "activity"))
+di
 
 ## Load and tidy test data
 test_subjects <- read.table("./data/UCI HAR Dataset/test/subject_test.txt", col.names = "subject")
