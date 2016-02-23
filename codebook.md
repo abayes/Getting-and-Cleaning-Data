@@ -1,11 +1,11 @@
 ## Getting and Cleaning Data Course Project Codebook
 This code book describes the variables, the data, and any transformations or work that I performed to clean up the data.
 
-The data is downloaded from:
+### Original Data Source:
 * site: http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones
 * file: https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip
 
-The downloaded file is a zipped file that contains:
+### The downloaded file is a zipped file that contains:
 * test - data for 30% of of the subjects
     * Inertial Signals - the data in this folder was not used in run_analysis.R
     * subject_test.txt - 2947 observations of subject
@@ -21,7 +21,7 @@ The downloaded file is a zipped file that contains:
 * features_info.txt - information about the variables in the feature vector
 * README.txt - General information about the data/contents in this file
 
-The run_analysis.R script performs the following:
+### The run_analysis.R script performs the following:
 
 1. Setup
     * Creates a data folder if one doesn't exist
@@ -91,6 +91,6 @@ The run_analysis.R script performs the following:
 10. Save the final tidy dataset
     * Saved to final.txt in the working directory
 
-The final.txt file
+### The final.txt file
 
 
