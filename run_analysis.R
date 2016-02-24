@@ -1,42 +1,33 @@
-##  Setup
-if (!file.exists("data")) {
-  dir.create("data")
-}
+## This script assumes the data is already downloaded, unzipped, and 
+## residing in the working directory in a folder named "getdata-projectfiles-UCI HAR Dataset"
+## This is the default set up if the zipped file was saved in the working directory
+## and just unzipped, nothing renamed
+
+## Setup
 library(dplyr)
-
-## Download files [if necessary]
-url <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
-if (!file.exists("./data/dataset.zip")) {
-  download.file(url, destfile = "./data/dataset.zip")
-}
-
-## Unzip files [if necessary]
-if (!file.exists("./data/UCI HAR Dataset")) {
-  unzip("./data/dataset.zip", exdir = "./data")
-}
 
 ## Load variable names and activity labels
 ## varnames will be used to label the dataset with descriptive variable names
 ## activity_labels will be used to name the activities in the data set
-varnames <- read.table("./data/UCI HAR Dataset/features.txt")
-activity_labels <- read.table("./data/UCI HAR Dataset/activity_labels.txt",
+varnames <- read.table("./getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/features.txt")
+activity_labels <- read.table("./getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/activity_labels.txt",
                              colClasses = "factor", col.names = c("code", "activity"))
 
 ## Load and tidy test data
-test_subjects <- read.table("./data/UCI HAR Dataset/test/subject_test.txt", col.names = "subject")
-test_activities <- read.table("./data/UCI HAR Dataset/test/Y_test.txt", 
+test_subjects <- read.table("./getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/test/subject_test.txt", col.names = "subject")
+test_activities <- read.table("./getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/test/Y_test.txt", 
                          colClasses = "factor", col.names = "code") %>%
   left_join(activity_labels)
-test_data <- read.table("./data/UCI HAR Dataset/test/X_test.txt")
+test_data <- read.table("./getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/test/X_test.txt")
 names(test_data) <- paste(varnames$V2,varnames$V1)
 test_data_set <- cbind(test_subjects, test_activities, test_data)
 
 ## Load and tidy train data
-train_subjects <- read.table("./data/UCI HAR Dataset/train/subject_train.txt", col.names = "subject")
-train_activities <- read.table("./data/UCI HAR Dataset/train/Y_train.txt", 
+train_subjects <- read.table("./getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/train/subject_train.txt", col.names = "subject")
+train_activities <- read.table("./getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/train/Y_train.txt", 
                               colClasses = "factor", col.names = "code") %>%
   left_join(activity_labels)
-train_data <- read.table("./data/UCI HAR Dataset/train/X_train.txt")
+train_data <- read.table("./getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/train/X_train.txt")
 names(train_data) <- paste(varnames$V2,varnames$V1)
 train_data_set <- cbind(train_subjects, train_activities, train_data)
 

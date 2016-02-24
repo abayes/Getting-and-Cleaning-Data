@@ -1,8 +1,7 @@
 ## Getting and Cleaning Data Course Project
-The run_analysis.R script will download the messy data and turn it into a tidy data set. The tidy dataset will be saved as "final.txt"
-* First the environment will be set up. A folder will be created for the downloaded data, and the necessary packages will be loaded
-* The data will be downloaded [if necessary] in the form of a zip file
-* The files will be unzipped [if necessary]
+The run_analysis.R script turns messy Human Activity Recognition data into a tidy data set. The tidy dataset will be saved as "final.txt"
+* The script assumes the data has already been downloaded and unzipped
+    * codebook.md has the structure of how the data needs to be saved for run_analysis.R to work
 * The data will be loaded and tidied
 * The relevant data will be extracted
 * The dataset will be saved to a file in the working directory: final.txt
