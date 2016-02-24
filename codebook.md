@@ -92,7 +92,7 @@ This code book describes the variables, the data, and any transformations or wor
     * Saved to final.txt in the working directory
 
 ### The final.txt file
-* final.txt can be read into R with: data <- read.table("final.txt")
+* final.txt can be read into R with: data <- read.table("final.txt", header = TRUE)
 * This will create a data frame with 180 observations. 
 * These 180 observations are identified as each activity for each subject. (6 x 30)
 * There are a total of 68 columns (activity, subject, and 66 measurements)

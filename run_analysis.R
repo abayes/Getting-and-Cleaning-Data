@@ -51,4 +51,4 @@ final <- group_by(combo_mean_std, activity, subject) %>%
   summarise_each(funs(mean))
 
 ## Save the final tidy dataset
-write.table(final, file = "./final.txt")
+write.table(final, file = "./final.txt", row.name=FALSE)
